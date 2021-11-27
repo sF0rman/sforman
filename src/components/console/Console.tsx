@@ -1,9 +1,8 @@
 import { KeyboardEvent, ReactElement, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useRoutes } from "react-router";
+import useTheme from "../hooks/useTheme";
 
 import "./Console.scss";
-
-type CMD = "cd" | "goto" | "help";
 
 interface ConsoleHistory {
   path?: string;
@@ -17,9 +16,15 @@ const HELP_MESSAGE: ReactElement = (
     cd &lt;path&gt; - navigate on site
     <br />
     goto &lt;url&gt; - open another link <br />
-    theme &lt;dark|light&gt; - sets theme clear - clears console
+    theme &lt;dark|light&gt; - sets theme clear - clears console <br />
+    clear - clears the console
   </span>
 );
+const THEME_CHANGED_SUCCESS: ReactElement = <p>Successfully changed theme...</p>;
+const THEME_CHANGED_ERROR: ReactElement = <p>Unable to change theme. Allowed themes are 'light' or 'dark'</p>;
+const createGotoMessage = (value: string): ReactElement => {
+  return <>Opening {value}</>;
+};
 const createErrorMessage = (value: string): ReactElement => {
   return (
     <>
@@ -34,6 +39,7 @@ const Console = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [history, setHistory] = useState<ConsoleHistory[]>([]);
+  const theme = useTheme();
 
   const consoleRef = useRef<HTMLInputElement>(null);
 
@@ -115,12 +121,24 @@ const Console = () => {
       } else if (value.startsWith("cd ")) {
         let target = value.replace("cd ", "");
         navigate(target.startsWith("..") ? `./${target}` : target);
+      } else if (value.startsWith("theme ")) {
+        let target = value.replace("theme ", "");
+        const completed = theme.setTheme(target);
+        addConsoleEvent(value, completed ? THEME_CHANGED_SUCCESS : THEME_CHANGED_ERROR, !completed);
       } else if (value === "clear") {
         setHistory([{ path: location.pathname }]);
         consoleRef.current?.setAttribute("value", "");
       } else if (value.startsWith("goto ")) {
+        const regex = /https?:\/\/(www\.)?[\w\d]+\.\w+/g;
+        const final = /https?:\/\/(www\.)[\w\d]+\.(\w+)/g;
+        const start = /https?:\/\//;
         let target = value.replace("goto ", "");
+        if (!target.match(regex)) {
+          target = target.match(start) ? target : `http://www.${target}`;
+          target = target.match(final) ? target : `${target}.com`;
+        }
         window.open(target);
+        addConsoleEvent(value, createGotoMessage(target), false);
       } else {
         addConsoleEvent(value, createErrorMessage(value), true);
       }
