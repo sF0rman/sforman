@@ -1,0 +1,53 @@
+@import url("https://use.typekit.net/hqm2btd.css");
+
+.console {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  right: 0;
+  font-size: 14px;
+  height: 8em;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0;
+  flex-direction: column;
+  line-height: 1rem;
+  font-family: roboto-mono, monospace;
+  font-weight: 400;
+  font-style: normal;
+  p {
+    margin: 1px 0;
+  }
+  .console-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, var(--background) 0, transparent 2.5em);
+    pointer-events: none;
+  }
+  .console-line {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    &.console-error {
+      color: var(--error);
+    }
+    .console-help {
+      display: flex;
+      margin-left: 1em;
+    }
+  }
+  .console-input,
+  .console-input:focus {
+    font-family: roboto-mono, monospace;
+    font-weight: 400;
+    font-style: normal;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+}

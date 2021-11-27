@@ -1,0 +1,16 @@
+@import "./themes/light";
+@import "./themes/dark.scss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+button {
+  border: none;
+}
