@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  .logo-wrapper {
+    height: 100%;
+  }
+  .header-text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    .h1 {
+      color: var(--header-text);
+    }
+    .h2 {
+      color: var(--subheader-text);
+    }
+  }
+}

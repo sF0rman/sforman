@@ -1,6 +1,6 @@
 import { KeyboardEvent, ReactElement, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useRoutes } from "react-router";
-import useTheme from "../hooks/useTheme";
+import useTheme from "../../hooks/useTheme";
 
 import "./Console.scss";
 
@@ -16,7 +16,7 @@ const HELP_MESSAGE: ReactElement = (
     cd &lt;path&gt; - navigate on site
     <br />
     goto &lt;url&gt; - open another link <br />
-    theme &lt;dark|light&gt; - sets theme clear - clears console <br />
+    theme &lt;dark|light&gt; - sets theme<br />
     clear - clears the console
   </span>
 );
@@ -149,7 +149,7 @@ const Console = () => {
     <div className="console">
       {history.map((h, i) => (
         <span key={`console-item-${i}`} className={`console-line${h.error ? " console-error" : ""}`}>
-          <p>{h.message ? h.message : `www/sforman${h.path ?? ""}> ${h.cmd ?? ""}`}</p>
+          <p>{h.message ? h.message : `www\\sforman${h.path?.replaceAll("/", "\\") ?? ""}>  ${h.cmd ?? ""}`}</p>
           {i === history.length - 1 && <input className="console-input" ref={consoleRef} onKeyDown={handleKeyDown} />}
         </span>
       ))}

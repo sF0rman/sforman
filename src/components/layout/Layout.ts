@@ -1,0 +1,1 @@
+export type Gap = "none" | "small" | "normal" | "large";

@@ -1,0 +1,20 @@
+.col,
+.row {
+  display: flex;
+  &.gap-none {
+    gap: 0;
+  }
+  &.gap-small {
+    gap: .5rem;
+  }
+  &.gap-normal {
+    gap: 1rem;
+  }
+  &.gap-large {
+    gap: 2rem;
+  }
+}
+
+.col {
+  flex-direction: column;
+}
