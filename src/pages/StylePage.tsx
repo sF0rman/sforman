@@ -6,7 +6,6 @@ const StylePage = () => {
       <Col gap="large">
         <>
           <h1 className="h2">Styling</h1>
-
           <Col gap="normal">
             <>
               <h2 className="h3">Typography</h2>
