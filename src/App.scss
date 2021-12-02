@@ -14,6 +14,7 @@
 @import "./themes/dark.scss";
 
 * {
+  z-index: 1; /* Make everything z-index 1 so 3D canvas is in background */
   box-sizing: border-box;
 }
 

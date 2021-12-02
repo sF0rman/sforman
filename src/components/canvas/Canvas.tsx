@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { MeshStandardMaterial, SphereGeometry } from "three";
 import useTheme, { Theme } from "../../hooks/useTheme";
@@ -8,12 +8,26 @@ const Canvas = () => {
   const theme = useTheme();
   const threeDCanvas = useRef<HTMLCanvasElement>(null);
 
-  useLayoutEffect(() => {
+  const [alphaValue, setAlphaValue] = useState<number | string>("null");
+  const [betaValue, setBetaValue] = useState<number | string>("null");
+  const [gammeValue, setGammeValue] = useState<number | string>("null");
+
+  useEffect(() => {
     document.addEventListener("mousemove", moveCamera, true);
-    setUpScene();
+    if (window.DeviceOrientationEvent) {
+      window.addEventListener("deviceorientation", moveCameraGyro);
+    }
+
     return () => {
       document.removeEventListener("mousemove", moveCamera);
+      if (window.DeviceOrientationEvent) {
+        window.removeEventListener("deviceorientation", moveCameraGyro);
+      }
     };
+  }, []);
+
+  useLayoutEffect(() => {
+    setUpScene();
   }, []);
 
   const cameraStartPoint = {
@@ -120,6 +134,16 @@ const Canvas = () => {
     camera.position.y = cameraStartPoint.y + cameraMovement.y;
   };
 
+  function moveCameraGyro(ev: DeviceOrientationEvent) {
+    const cameraMovement = {
+      x: ev.gamma ? ev.gamma * 0.01 : 0,
+      y: ev.beta ? ev.beta * 0.01 : 0,
+    };
+
+    camera.position.x = cameraStartPoint.x + cameraMovement.x;
+    camera.position.y = cameraStartPoint.y + cameraMovement.y;
+  }
+
   const animate = () => {
     if (theme.value === "dark") {
       sunLight.position.set(nightLight.x, nightLight.y, nightLight.z);
@@ -142,7 +166,11 @@ const Canvas = () => {
     renderer.render(scene, camera);
     window.requestAnimationFrame(animate);
   };
-  return <canvas className="canvas-3d" ref={threeDCanvas}></canvas>;
+  return (
+    <>
+      <canvas className="canvas-3d" ref={threeDCanvas}></canvas>
+    </>
+  );
 };
 
 export default Canvas;
