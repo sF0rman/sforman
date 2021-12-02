@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
-import useTheme from "../../hooks/useTheme";
-import Switch from "../switch/Switch";
-
 import "./Navigation.scss";
+
 
 const Navigation = () => {
   return (

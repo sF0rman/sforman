@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="90" height="90" viewBox="0 0 90 90">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.774" y1="-0.236" x2="0.178" y2="1.195" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#4c6c8a"/>
+      <stop offset="1" stop-color="#1e2429"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_2" data-name="Rectangle 2" width="90" height="90" transform="translate(0 0.217)" stroke="#707070" stroke-width="1" fill="url(#linear-gradient)"/>
+    </clipPath>
+  </defs>
+  <g id="Logo" transform="translate(0 -0.217)" clip-path="url(#clip-path)">
+    <g id="logo_v2" transform="translate(0 -0.022)">
+      <path id="Path_1" data-name="Path 1" d="M89.346,4.128A4.118,4.118,0,0,0,85.218,0H66.312S30.449-.464,30.449,26.429c0,28.412,39.884,22.908,39.884,38.651,0,9.274-15.493,9.274-12.83,9.274H0V85.218a4.118,4.118,0,0,0,4.128,4.128H55.644c16.475,0,33.7-8.434,33.7-25.2,0-29.341-39.723-23.194-39.723-38.955,1.108-9.792,14.992-9.113,14.992-9.113h20.6a4.13,4.13,0,0,0,4.128-4.128Z" transform="translate(0 0)" fill-rule="evenodd" fill="url(#linear-gradient)"/>
+      <path id="Path_2" data-name="Path 2" d="M30.109,7.112h0A3.974,3.974,0,0,0,26.965.179C16.618,1.609,0,8.953,0,26.947V67.921H56.877c2.984,0,4.181-.858,4.181-2.394,0-2.823-3.181-4.324-5.95-5.522-11.49-4.217-33.54-12.33-33.29-33.183A23.9,23.9,0,0,1,30.109,7.112Z" transform="translate(0 0.107)" fill-rule="evenodd" fill="url(#linear-gradient)"/>
+    </g>
+  </g>
+</svg>

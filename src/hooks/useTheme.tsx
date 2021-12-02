@@ -1,6 +1,6 @@
 import { useState, useEffect, ReactElement } from "react";
 
-type Theme = "system" | "dark" | "light";
+export type Theme = "system" | "dark" | "light";
 
 const findTheme = (): Theme => {
   let theme: Theme = (localStorage.getItem("data-theme") as Theme) ?? "system";
@@ -23,8 +23,6 @@ const useTheme = () => {
     switch (theme as Theme) {
       case "dark":
       case "light":
-        localStorage.setItem("data-theme", theme);
-        document.documentElement.setAttribute("data-theme", theme);
         setValue(theme as Theme);
         return true;
       default:
@@ -33,8 +31,9 @@ const useTheme = () => {
   };
 
   useEffect(() => {
-    setValue((localStorage.getItem("data-theme") as Theme) ?? "system");
-  }, [localStorage.getItem("data-theme")]);
+    localStorage.setItem("data-theme", value as string);
+    document.documentElement.setAttribute("data-theme", value);
+  }, [value]);
 
   return { value, setTheme };
 };

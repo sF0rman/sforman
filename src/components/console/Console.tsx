@@ -16,7 +16,8 @@ const HELP_MESSAGE: ReactElement = (
     cd &lt;path&gt; - navigate on site
     <br />
     goto &lt;url&gt; - open another link <br />
-    theme &lt;dark|light&gt; - sets theme<br />
+    theme &lt;dark|light&gt; - sets theme
+    <br />
     clear - clears the console
   </span>
 );

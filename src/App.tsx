@@ -9,7 +9,6 @@ import StylePage from "./pages/StylePage";
 const App = () => {
   return (
     <div className="app">
-      <Navigation />
       <ThemeController />
       <Routes>
         <Route index element={<HomePage />} />
