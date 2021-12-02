@@ -18,6 +18,14 @@ const Header = () => {
       </div>
       <div className="header-content">
         <h2>Site under construction</h2>
+        <div className="header-content-links">
+          <a href="https://github.com/sF0rman/sforman" target="_blank">
+            <i className="fab fa-github" /> Github
+          </a>
+          <a href="https://www.linkedin.com/in/sebastianforman/" target="_blank">
+            <i className="fab fa-linkedin" /> LinkedIn
+          </a>
+        </div>
       </div>
     </div>
   );

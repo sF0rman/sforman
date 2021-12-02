@@ -26,4 +26,30 @@
       }
     }
   }
+
+  .header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    h2 {
+      color: var(--text);
+    }
+
+    .header-content-links {
+      display: flex;
+      justify-content: space-evenly;
+
+      a {
+        padding: 0.5rem 0.8rem;
+        background: var(--button);
+        border-radius: 0.5rem;
+        color: var(--button-text);
+
+        &:hover {
+          background: var(--button-hover);
+        }
+      }
+    }
+  }
 }

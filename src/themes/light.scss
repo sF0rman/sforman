@@ -1,9 +1,13 @@
 :root {
-  --background: radial-gradient(#eceff0, #DCE1E5);
-  --text: #111111;
-  --header-text: #16293b;
-  --subheader-text: #456079;
+  --background: radial-gradient(#eceff0, #dce1e5);
+  --text: #1e2429;
+  --header-text: #1e2429;
+  --subheader-text: #253D54;
   --primary: #007eff;
   --console: #000000;
   --error: #ff0000;
+
+  --button: #1e2429;
+  --button-hover: #253D54;
+  --button-text: #dce1e5;
 }

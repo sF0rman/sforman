@@ -20,6 +20,7 @@ const useTheme = () => {
   const [value, setValue] = useState<Theme>(findTheme());
 
   const setTheme = (theme: string): boolean => {
+    window.location.reload(); // temporary workaround
     switch (theme as Theme) {
       case "dark":
       case "light":
