@@ -1,7 +1,8 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { MeshStandardMaterial, SphereGeometry } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import useTheme, { Theme } from "../../hooks/useTheme";
+import GlobeModel from '../../resources/models/globe.glb';
 import "./Canvas.scss";
 
 const Canvas = () => {
@@ -50,7 +51,7 @@ const Canvas = () => {
   let stars: THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial>;
   let starPositions: Float32Array;
   let starMovement: Float32Array;
-  let globe: THREE.Mesh<SphereGeometry, MeshStandardMaterial>;
+  let globe: THREE.Group;
   let renderer: THREE.WebGLRenderer;
   let currentTheme: Theme;
 
@@ -73,11 +74,18 @@ const Canvas = () => {
     camera.position.z = cameraStartPoint.z;
     scene.add(camera);
 
-    // Globe
-    const geometry = new THREE.SphereGeometry(1, 32, 32);
-    const material = new THREE.MeshStandardMaterial({ color: 0x007eff });
-    globe = new THREE.Mesh(geometry, material);
-    scene.add(globe);
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load(
+      GlobeModel,
+      gltf => {
+        globe = gltf.scene;
+        scene.add(gltf.scene);
+      },
+      undefined,
+      err => {
+        console.log(err);
+      }
+    );
 
     if (theme.value === "dark") {
       // Stars
@@ -159,7 +167,7 @@ const Canvas = () => {
     } else {
       sunLight.position.set(dayLight.x, dayLight.y, dayLight.z);
     }
-
+    if(globe) globe.rotation.y = globe.rotation.y += 0.001;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);

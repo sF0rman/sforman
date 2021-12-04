@@ -45,6 +45,13 @@ module.exports = {
         options: {
           name: "images/[name].[ext]",
         },
+      },
+      {
+        test: /\.(glb|gltf)$/i,
+        loader: "file-loader",
+        options: {
+          name: "models/[name].[ext]",
+        },
       }
     ],
   },
