@@ -50,3 +50,9 @@
     outline: none;
   }
 }
+
+@media screen and (max-width: 768px) {
+    .console {
+      display: none;
+    }
+}

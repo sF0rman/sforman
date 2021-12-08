@@ -1,17 +1,17 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useLayoutEffect, useRef } from "react";
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import useTheme, { Theme } from "../../hooks/useTheme";
-import GlobeModel from '../../resources/models/globe.glb';
+import GlobeModel from "../../resources/models/globe.glb";
+import UfoModel from "../../resources/models/ufo.glb";
+import StarAlphamap from "../../resources/models/particle_mask.png";
 import "./Canvas.scss";
 
-const Canvas = () => {
+
+
+const Canvas = (): ReactElement => {
   const theme = useTheme();
   const threeDCanvas = useRef<HTMLCanvasElement>(null);
-
-  const [alphaValue, setAlphaValue] = useState<number | string>("null");
-  const [betaValue, setBetaValue] = useState<number | string>("null");
-  const [gammeValue, setGammeValue] = useState<number | string>("null");
 
   useEffect(() => {
     document.addEventListener("mousemove", moveCamera, true);
@@ -40,7 +40,7 @@ const Canvas = () => {
   const starPositionLimit = {
     x: 20,
     y: 20,
-    z: 20,
+    z: 3,
   };
   const dayLight = { x: -1, y: 1, z: 1 };
   const nightLight = { x: 7, y: 4, z: -1 };
@@ -67,6 +67,9 @@ const Canvas = () => {
   const setUpScene = () => {
     // Create Scene
     scene = new THREE.Scene();
+
+    const textureLoader = new THREE.TextureLoader();
+
     // Create Camera
     camera = new THREE.PerspectiveCamera(60, windowSize.x / windowSize.y, 0.2);
     camera.position.x = cameraStartPoint.x;
@@ -76,7 +79,7 @@ const Canvas = () => {
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(
-      GlobeModel,
+      UfoModel,
       gltf => {
         globe = gltf.scene;
         scene.add(gltf.scene);
@@ -89,8 +92,8 @@ const Canvas = () => {
 
     if (theme.value === "dark") {
       // Stars
+      const starAlpha = textureLoader.load(StarAlphamap);
       starGeometry = new THREE.BufferGeometry();
-
       starMovement = new Float32Array(starCount * 3);
       starPositions = new Float32Array(starCount * 3);
       for (let i = 0; i < starCount; i += 3) {
@@ -104,18 +107,19 @@ const Canvas = () => {
       }
       starGeometry.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
       const starMaterial = new THREE.PointsMaterial({
-        size: 0.015,
+        size: 0.02,
         sizeAttenuation: true,
         color: "#ffffff",
         opacity: 0.2,
+        map: starAlpha,
       });
       stars = new THREE.Points(starGeometry, starMaterial);
       scene.add(stars);
     }
 
-    const ambientLight = new THREE.AmbientLight("#ffffff", 0.2);
+    const ambientLight = new THREE.AmbientLight("#ffffff", 0.4);
     scene.add(ambientLight);
-    sunLight = new THREE.DirectionalLight("#ffffff", 2);
+    sunLight = new THREE.DirectionalLight("#ffffff", .5);
     theme.value === "light"
       ? sunLight.position.set(dayLight.x, dayLight.y, dayLight.z)
       : sunLight.position.set(nightLight.x, nightLight.y, nightLight.z);
@@ -142,7 +146,7 @@ const Canvas = () => {
     camera.position.y = cameraStartPoint.y + cameraMovement.y;
   };
 
-  function moveCameraGyro(ev: DeviceOrientationEvent) {
+  const moveCameraGyro = (ev: DeviceOrientationEvent) => {
     const cameraMovement = {
       x: ev.gamma ? ev.gamma * 0.01 : 0,
       y: ev.beta ? ev.beta * 0.01 : 0,
@@ -150,7 +154,7 @@ const Canvas = () => {
 
     camera.position.x = cameraStartPoint.x + cameraMovement.x;
     camera.position.y = cameraStartPoint.y + cameraMovement.y;
-  }
+  };
 
   const animate = () => {
     if (theme.value === "dark") {
@@ -167,13 +171,14 @@ const Canvas = () => {
     } else {
       sunLight.position.set(dayLight.x, dayLight.y, dayLight.z);
     }
-    if(globe) globe.rotation.y = globe.rotation.y += 0.001;
+    if (globe) globe.rotation.y = globe.rotation.y += 0.001;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
     window.requestAnimationFrame(animate);
   };
+
   return (
     <>
       <canvas className="canvas-3d" ref={threeDCanvas}></canvas>

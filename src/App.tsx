@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.scss";
-import Console from "./components/console/Console";
+import Console from "./context/console/Console";
 import Navigation from "./components/navigation/Navigation";
 import ThemeController from "./components/theme/ThemeController";
 import HomePage from "./pages/HomePage";
