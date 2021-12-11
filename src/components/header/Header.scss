@@ -1,17 +1,25 @@
 .header {
+  position: absolute;
+  max-width: 95%;
+  top: 50%;
+  left: 20%;
+  transform: translateY(-50%);
   z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  align-items: center;
+  align-items: flex-start;
   .header-title {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1.5rem;
-    flex-wrap: wrap;
+    white-space: nowrap;
     .logo-wrapper {
       height: 100%;
+      img {
+        height: 4rem;
+      }
     }
     .header-title-text {
       position: relative;
@@ -38,7 +46,8 @@
 
     .header-content-links {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: flex-start;
+      gap: 2rem;
 
       a {
         padding: 0.5rem 0.8rem;
@@ -50,6 +59,18 @@
           background: var(--button-hover);
         }
       }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .header {
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    .header-content-links {
+      justify-content: center;
     }
   }
 }

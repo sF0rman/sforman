@@ -78,9 +78,8 @@ a {
   text-decoration: none;
 }
 .home {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
+  height: 100vh;
 }
 .page {
   width: 100%;
