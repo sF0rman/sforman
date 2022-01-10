@@ -10,7 +10,9 @@ const Canvas = (): ReactElement => {
   const theme = useTheme();
   const threeDCanvas = useRef<HTMLCanvasElement>(null);
 
+  let isMobile = window.innerWidth < 768;
   useEffect(() => {
+    window.addEventListener("resize", detectDeviceChange, true);
     document.addEventListener("mousemove", moveCamera, true);
     if (window.DeviceOrientationEvent) {
       window.addEventListener("deviceorientation", moveCameraGyro);
@@ -18,6 +20,7 @@ const Canvas = (): ReactElement => {
 
     return () => {
       document.removeEventListener("mousemove", moveCamera);
+      window.removeEventListener("resize", detectDeviceChange);
       if (window.DeviceOrientationEvent) {
         window.removeEventListener("deviceorientation", moveCameraGyro);
       }
@@ -28,9 +31,10 @@ const Canvas = (): ReactElement => {
     setUpScene();
   }, []);
 
+  
   const cameraStartPoint = {
-    x: -2,
-    y: 0,
+    x: isMobile ? 0 : -2,
+    y: isMobile ? 1 : 0,
     z: 5.5,
   };
   const starCount = 10000;
@@ -104,10 +108,10 @@ const Canvas = (): ReactElement => {
       }
       starGeometry.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
       const starMaterial = new THREE.PointsMaterial({
-        size: 0.03,
+        size: 0.07,
         sizeAttenuation: true,
         color: "#ffffff",
-        opacity: 0.2,
+        opacity: 0.4,
         map: starAlpha,
       });
       stars = new THREE.Points(starGeometry, starMaterial);
@@ -133,7 +137,7 @@ const Canvas = (): ReactElement => {
     animate();
   };
 
-  const moveCamera = (ev: MouseEvent): any => {
+  const moveCamera = (ev: MouseEvent): void => {
     const cameraMovement = {
       x: (ev.clientX / windowSize.x - 0.5) * 0.15,
       y: (ev.clientY / windowSize.y - 0.5) * 0.15,
@@ -143,7 +147,7 @@ const Canvas = (): ReactElement => {
     camera.position.y = cameraStartPoint.y + cameraMovement.y;
   };
 
-  const moveCameraGyro = (ev: DeviceOrientationEvent) => {
+  const moveCameraGyro = (ev: DeviceOrientationEvent): void => {
     const cameraMovement = {
       x: ev.gamma ? ev.gamma * 0.01 : 0,
       y: ev.beta ? ev.beta * 0.01 : 0,
@@ -151,6 +155,23 @@ const Canvas = (): ReactElement => {
 
     camera.position.x = cameraStartPoint.x + cameraMovement.x;
     camera.position.y = cameraStartPoint.y + cameraMovement.y;
+  };
+
+  const detectDeviceChange = (event: any): void => {
+    console.log(event);
+    if(isMobile && event.target.innerWidth > 768) {
+      isMobile = false;
+      camera.position.x = -2;
+      camera.position.y = 0;
+      cameraStartPoint.x = -2;
+      cameraStartPoint.y = 0;
+    } else if (!isMobile && event.target.innerWidth <= 768) {
+      isMobile = true;
+      camera.position.x = 0;
+      camera.position.y = 1;
+      cameraStartPoint.x = 0;
+      cameraStartPoint.y = 1;
+    }
   };
 
   const animate = () => {
@@ -171,6 +192,15 @@ const Canvas = (): ReactElement => {
     }
     if (globe) {
       globe.rotation.y -= 0.0001;
+    }
+    if (isMobile && window.innerHeight < 768) {
+      isMobile = !isMobile;
+      console.log("test1");
+      camera.position.x = -2;
+    } else if (!isMobile && window.innerHeight <= 768) {
+      isMobile = !isMobile;
+      console.log("test2");
+      camera.position.x = 0;
     }
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
