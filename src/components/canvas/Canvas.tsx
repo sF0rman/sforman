@@ -100,7 +100,7 @@ const Canvas = (): ReactElement => {
       for (let i = 0; i < starCount; i += 3) {
         starPositions[i] = (Math.random() - 0.5) * starPositionLimit.x;
         starPositions[i + 1] = (Math.random() - 0.5) * starPositionLimit.y;
-        starPositions[i + 2] = (Math.random() - 0.5) * starPositionLimit.z - 5;
+        starPositions[i + 2] = (Math.random() - 0.5) * starPositionLimit.z - 3;
 
         starMovement[i] = (Math.random() - 0.5) * 0.0001;
         starMovement[i + 1] = (Math.random() - 0.5) * 0.0001;
@@ -172,6 +172,8 @@ const Canvas = (): ReactElement => {
       cameraStartPoint.x = 0;
       cameraStartPoint.y = 1;
     }
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
   };
 
   const animate = () => {

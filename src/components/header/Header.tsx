@@ -17,7 +17,7 @@ const Header = () => {
         </h1>
       </div>
       <div className="header-content">
-        <h2>Site under construction</h2>
+        <h2 className="h3">Site under construction</h2>
         <div className="header-content-links">
           <a href="https://github.com/sF0rman" target="_blank">
             <i className="fab fa-github" /> Github
